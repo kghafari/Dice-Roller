@@ -13,25 +13,36 @@ namespace Day_2___After_Hours
                 Console.WriteLine("\nWelcome to Kyle's Magic Dice Roller!");
                 Console.WriteLine("-----------------------------------\n");
 
-                //get input, & validate
-                Console.WriteLine("How many sides do your dice have?");
+                //ask how many sided dice, & validates user input. If given an int, returns numberOfSides
+                Console.Write("How many sides do your dice have?: ");
                 string temp = Console.ReadLine();
                 int numberOfSides;
-                bool isInt = int.TryParse(temp, out numberOfSides);
-                while ((isInt == false) || (numberOfSides <= 0)) 
+                while ((!int.TryParse(temp, out numberOfSides)) || (numberOfSides <= 0)) 
                 {
 
-                    Console.WriteLine("Invalid entry. Please enter a whole number.");
+                    Console.Write("Invalid entry. Please enter a whole number:");
                     temp = Console.ReadLine();
-                    isInt = int.TryParse(temp, out numberOfSides);
+                    int.TryParse(temp, out numberOfSides);
                 }
 
-                //output
-                int result1 = DiceRoller(numberOfSides);
-                int result2 = DiceRoller(numberOfSides);
-                Console.WriteLine("");
-                Console.WriteLine($"Dice 1: {result1}");
-                Console.WriteLine($"Dice 2: {result2}");
+                //ask how many dice to roll, & validates user input. If given an int greater than 0, returns numberOfRolls
+                Console.Write("How many dice would you like to roll?: ");
+                string temp2 = Console.ReadLine();
+                int numberOfRolls;
+                while((!int.TryParse(temp2, out numberOfRolls)) || (numberOfRolls <= 0))
+                {
+                    Console.Write("Invalid entry. Please enter a whole number greater than one: ");
+                    temp2 = Console.ReadLine();
+                    int.TryParse(temp2, out numberOfRolls);
+                }
+
+                //prints results to console
+                Console.WriteLine("\nResults:\n----------");
+                for (int i = 0; i < numberOfRolls ; i++)
+                {
+                    Console.WriteLine($"Dice {i + 1}: {DiceRoller(numberOfSides)}");
+
+                }
 
                 //prompt to continue
                 Console.WriteLine("\nWould you like to roll another pair? (y/n)");
@@ -42,11 +53,10 @@ namespace Day_2___After_Hours
                     keepGoing = Console.ReadLine();
                 }
             }
+            Console.WriteLine("\nThanks for stopping by!");
         }
 
-        //here ye be a magic method
-        //it'll be a random number generator
-        //it'll return a single int, between 1 and (a lot).. something like
+        //returns a random number between (1 - max)
         public static int DiceRoller(int max)
         {
             Random random = new Random();
